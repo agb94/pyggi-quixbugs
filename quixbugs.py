@@ -1,5 +1,6 @@
 import os
 import random
+import json
 import argparse
 from pyggi.base import Patch
 from pyggi.line import LineProgram
@@ -8,34 +9,36 @@ from pyggi.tree import TreeProgram
 from pyggi.tree import StmtReplacement, StmtInsertion, StmtDeletion
 from pyggi.algorithms import LocalSearch
 
-QUIXBUGS_DIR = "/Users/gabin/Workspace/pyggi-quixbugs/quixbugs"
+QUIXBUGS_DIR = os.path.abspath("./quixbugs")
 PYTHON_DIR = os.path.join(QUIXBUGS_DIR, "python_programs")
 JSON_DIR = os.path.join(QUIXBUGS_DIR, "json_testcases")
+TARGETS = ['bitcount', 'hanoi', 'flatten', 'sqrt', 'possible_change',
+	'longest_common_subsequence', 'gcd', 'next_permutation',
+	'depth_first_search', 'sieve', 'knapsack', 'minimum_spanning_tree',
+	'quicksort', 'find_first_in_sorted', 'is_valid_parenthesization',
+	'kheapsort', 'pascal', 'topological_ordering', 'lis', 'get_factors',
+	'shunting_yard', 'powerset', 'levenshtein', 'breadth_first_search',
+	'subsequences', 'to_base', 'detect_cycle', 'kth', 'node',
+	'reverse_linked_list', 'rpn_eval', 'lcs_length', 'max_sublist_sum',
+	'wra', 'next_palindrome', 'find_in_sorted', 'bucketsort', 'mergesort']
 
-if __name__ == "__main__":
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--mode', type=str, default='line')
-	parser.add_argument('--target', type=str, default='gcd')
-	parser.add_argument('--epoch', type=int, default=1)
-	parser.add_argument('--maxiter', type=int, default=100)
-	args = parser.parse_args()
-
-	target = os.path.join(PYTHON_DIR, args.target + '.py')
-	test = os.path.join(JSON_DIR, args.target + '.json')
+def run(mode, target, epoch, maxiter):
+	target_path = os.path.join(PYTHON_DIR, target + '.py')
+	test_path = os.path.join(JSON_DIR, target + '.json')
 	print("------------------- Target -------------------")
-	print(target)
+	print(target_path)
 	print("-------------------- Test --------------------")
-	print(test)
+	print(test_path)
 	print("----------------------------------------------")
 
 	config = {
-		'target_files': [args.target + '.py'],
-		'test_command': "python test.py {} {}".format(args.target, test)
+		'target_files': [target + '.py'],
+		'test_command': "python test.py {} {}".format(target, test_path)
 	}
-	if args.mode == 'line':
+	if mode == 'line':
 		program = LineProgram(PYTHON_DIR, config=config)
 		operators = [LineReplacement, LineInsertion, LineDeletion]
-	elif args.mode == 'tree':
+	elif mode == 'tree':
 		program = TreeProgram(PYTHON_DIR, config=config)
 		operators = [StmtReplacement, StmtInsertion, StmtDeletion]
 
@@ -60,10 +63,23 @@ if __name__ == "__main__":
 			return fitness == 0
 
 	local_search = MyLocalSearch(program)
-	result = local_search.run(warmup_reps=1, epoch=args.epoch, max_iter=args.maxiter, timeout=10)
+	result = local_search.run(warmup_reps=1, epoch=epoch, max_iter=maxiter, timeout=10)
 	for epoch in result:
-		print ("Epoch #{}".format(epoch))
-		for key in result[epoch]:
-			print ("- {}: {}".format(key, result[epoch][key]))
 		if result[epoch]["BestPatch"] is not None:
-			print(program.diff(result[epoch]["BestPatch"]))
+			result[epoch]["diff"] = program.diff(result[epoch]["BestPatch"])
+		result[epoch]["BestPatch"] = str(result[epoch]["BestPatch"])
+	with open("./logs/{}_{}".format(program.timestamp, target), 'w') as f:
+		f.write(json.dumps(result))
+
+if __name__ == "__main__":
+	"""
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--mode', type=str, default='line')
+	parser.add_argument('--target', type=str, default='gcd')
+	parser.add_argument('--epoch', type=int, default=30)
+	parser.add_argument('--maxiter', type=int, default=100)
+	args = parser.parse_args()
+	"""
+	for mode in ['line', 'tree']:
+		for target in TARGETS:
+			run(mode, target, 3, 10)
