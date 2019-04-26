@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/KNAPSACK.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>lang</name><operator>.</operator><name>*</name></name>;</import>
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>KNAPSACK</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>int</name></type> <name>knapsack</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>capacity</name></decl></parameter>, <parameter><decl><type><name><name>int</name> <index>[]</index><index>[]</index></name></type> <name>items</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name>int</name></type> <name>weight</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>, <decl><type ref="prev"/><name>value</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name>int</name></type> <name>n</name> <init>= <expr><name><name>items</name><operator>.</operator><name>length</name></name></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name>int</name></type> <name><name>memo</name><index>[]</index><index>[]</index></name> <init>= <expr><operator>new</operator> <name><name>int</name><index>[<expr><name>n</name> <operator>+</operator> <literal type="number">1</literal></expr>]</index><index>[<expr><name>capacity</name> <operator>+</operator> <literal type="number">1</literal></expr>]</index></name></expr></init></decl>;</decl_stmt>
+
+        <for>for <control>(<init><decl><type><name>int</name></type> <name>i</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</init> <condition><expr><name>i</name> <operator>&lt;=</operator> <name>n</name></expr> ;</condition> <incr><expr><name>i</name><operator>++</operator></expr></incr>)</control>
+        <block>{
+            <if>if <condition>(<expr><name>i</name> <operator>-</operator> <literal type="number">1</literal> <operator>&gt;=</operator> <literal type="number">0</literal></expr>)</condition><then> <block>{
+                <expr_stmt><expr><name>weight</name> <operator>=</operator> <name><name>items</name><index>[<expr><name>i</name> <operator>-</operator> <literal type="number">1</literal></expr>]</index><index>[<expr><literal type="number">0</literal></expr>]</index></name></expr>;</expr_stmt>
+                <expr_stmt><expr><name>value</name> <operator>=</operator> <name><name>items</name><index>[<expr><name>i</name> <operator>-</operator> <literal type="number">1</literal></expr>]</index><index>[<expr><literal type="number">1</literal></expr>]</index></name></expr>;</expr_stmt>
+            }</block></then></if>
+            <for>for <control>(<init><decl><type><name>int</name></type> <name>j</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</init> <condition><expr><name>j</name> <operator>&lt;=</operator> <name>capacity</name></expr>;</condition> <incr><expr><name>j</name><operator>++</operator></expr></incr>)</control>
+            <block>{
+                <if>if <condition>(<expr><name>i</name> <operator>==</operator> <literal type="number">0</literal> <operator>||</operator> <name>j</name> <operator>==</operator> <literal type="number">0</literal></expr>)</condition><then> <block>{
+                    <expr_stmt><expr><name><name>memo</name><index>[<expr><name>i</name></expr>]</index><index>[<expr><name>j</name></expr>]</index></name> <operator>=</operator> <literal type="number">0</literal></expr>;</expr_stmt>
+                }</block></then>
+                <elseif>else <if>if <condition>(<expr><name>weight</name> <operator>&lt;</operator> <name>j</name></expr>)</condition><then> <block>{
+                    <expr_stmt><expr><name><name>memo</name><index>[<expr><name>i</name></expr>]</index><index>[<expr><name>j</name></expr>]</index></name> <operator>=</operator> <call><name><name>Math</name><operator>.</operator><name>max</name></name><argument_list>(<argument><expr><name><name>memo</name><index>[<expr><name>i</name> <operator>-</operator> <literal type="number">1</literal></expr>]</index><index>[<expr><name>j</name></expr>]</index></name></expr></argument>, <argument><expr><name>value</name> <operator>+</operator> <name><name>memo</name><index>[<expr><name>i</name> <operator>-</operator> <literal type="number">1</literal></expr>]</index><index>[<expr><name>j</name> <operator>-</operator> <name>weight</name></expr>]</index></name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                }</block></then></if></elseif>
+                <else>else <block>{
+                    <expr_stmt><expr><name><name>memo</name><index>[<expr><name>i</name></expr>]</index><index>[<expr><name>j</name></expr>]</index></name> <operator>=</operator> <name><name>memo</name> <index>[<expr><name>i</name><operator>-</operator><literal type="number">1</literal></expr>]</index><index>[<expr><name>j</name></expr>]</index></name></expr>;</expr_stmt>
+                }</block></else></if>
+
+            }</block></for>
+        }</block></for>
+        <return>return <expr><name><name>memo</name><index>[<expr><name>n</name></expr>]</index><index>[<expr><name>capacity</name></expr>]</index></name></expr>;</return>
+    }</block></function>
+
+}</block></class>
+</unit>

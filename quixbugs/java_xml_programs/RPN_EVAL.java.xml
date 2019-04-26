@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/RPN_EVAL.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>function</name><operator>.</operator><name>BinaryOperator</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>RPN_EVAL</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>Double</name></type> <name>rpn_eval</name><parameter_list>(<parameter><decl><type><name>ArrayList</name></type> <name>tokens</name></decl></parameter>)</parameter_list> <block>{
+	<decl_stmt><decl><type><name><name>Map</name><argument_list type="generic">&lt;<argument><name>String</name></argument>, <argument><name><name>BinaryOperator</name><argument_list type="generic">&lt;<argument><name>Double</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name></type> <name>op</name> <init>= <expr><operator>new</operator> <call><name><name>HashMap</name><argument_list type="generic">&lt;<argument><name>String</name></argument>, <argument><name><name>BinaryOperator</name><argument_list type="generic">&lt;<argument><name>Double</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+	<expr_stmt><expr><call><name><name>op</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><literal type="string">"+"</literal></expr></argument>, <argument><expr><lambda><parameter_list>(<parameter><decl><name>a</name></decl></parameter>, <parameter><decl><name>b</name></decl></parameter>)</parameter_list> -&gt; <block type="pseudo"><expr><name>a</name> <operator>+</operator> <name>b</name></expr></block></lambda></expr></argument>)</argument_list></call></expr>;</expr_stmt> 
+	<expr_stmt><expr><call><name><name>op</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><literal type="string">"-"</literal></expr></argument>, <argument><expr><lambda><parameter_list>(<parameter><decl><name>a</name></decl></parameter>, <parameter><decl><name>b</name></decl></parameter>)</parameter_list> -&gt; <block type="pseudo"><expr><name>a</name> <operator>-</operator> <name>b</name></expr></block></lambda></expr></argument>)</argument_list></call></expr>;</expr_stmt> 
+	<expr_stmt><expr><call><name><name>op</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><literal type="string">"*"</literal></expr></argument>, <argument><expr><lambda><parameter_list>(<parameter><decl><name>a</name></decl></parameter>, <parameter><decl><name>b</name></decl></parameter>)</parameter_list> -&gt; <block type="pseudo"><expr><name>a</name> <operator>*</operator> <name>b</name></expr></block></lambda></expr></argument>)</argument_list></call></expr>;</expr_stmt> 
+	<expr_stmt><expr><call><name><name>op</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><literal type="string">"/"</literal></expr></argument>, <argument><expr><lambda><parameter_list>(<parameter><decl><name>a</name></decl></parameter>, <parameter><decl><name>b</name></decl></parameter>)</parameter_list> -&gt; <block type="pseudo"><expr><name>a</name> <operator>/</operator> <name>b</name></expr></block></lambda></expr></argument>)</argument_list></call></expr>;</expr_stmt> 
+	
+
+        <decl_stmt><decl><type><name>Stack</name></type> <name>stack</name> <init>= <expr><operator>new</operator> <call><name>Stack</name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <for>for <control>(<init><decl><type><name>Object</name></type> <name>token</name> <range>: <expr><name>tokens</name></expr></range></decl></init>)</control> <block>{
+            <if>if <condition>(<expr><call><name><name>Double</name><operator>.</operator><name><name>class</name><operator>.</operator><name>isInstance</name></name></name><argument_list>(<argument><expr><name>token</name></expr></argument>)</argument_list></call></expr>)</condition><then> <block>{
+                <expr_stmt><expr><call><name><name>stack</name><operator>.</operator><name>push</name></name><argument_list>(<argument><expr><operator>(</operator><name>Double</name><operator>)</operator> <name>token</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></then> <else>else <block>{
+		<expr_stmt><expr><name>token</name> <operator>=</operator> <operator>(</operator><name>String</name><operator>)</operator> <name>token</name></expr>;</expr_stmt>
+                <decl_stmt><decl><type><name>Double</name></type> <name>a</name> <init>= <expr><operator>(</operator><name>Double</name><operator>)</operator> <call><name><name>stack</name><operator>.</operator><name>pop</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+                <decl_stmt><decl><type><name>Double</name></type> <name>b</name> <init>= <expr><operator>(</operator><name>Double</name><operator>)</operator> <call><name><name>stack</name><operator>.</operator><name>pop</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+		<decl_stmt><decl><type><name>Double</name></type> <name>c</name> <init>= <expr><literal type="number">0.0</literal></expr></init></decl>;</decl_stmt>
+		<decl_stmt><decl><type><name><name>BinaryOperator</name><argument_list type="generic">&lt;<argument><name>Double</name></argument>&gt;</argument_list></name></type> <name>bin_op</name> <init>= <expr><call><name><name>op</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><name>token</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+		<expr_stmt><expr><name>c</name> <operator>=</operator> <call><name><name>bin_op</name><operator>.</operator><name>apply</name></name><argument_list>(<argument><expr><name>a</name></expr></argument>,<argument><expr><name>b</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                <expr_stmt><expr><call><name><name>stack</name><operator>.</operator><name>push</name></name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></else></if>
+        }</block></for>
+
+        <return>return <expr><operator>(</operator><name>Double</name><operator>)</operator> <call><name><name>stack</name><operator>.</operator><name>pop</name></name><argument_list>()</argument_list></call></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

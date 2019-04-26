@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/HANOI.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>HANOI</name> <block>{
+    <comment type="line">// default start=1, end=3</comment>
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>List</name><argument_list type="generic">&lt;<argument><name><name>Pair</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name></type> <name>hanoi</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>height</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>start</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>end</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name><name>Pair</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name></type> <name>steps</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name><name>Pair</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <if>if <condition>(<expr><name>height</name> <operator>&gt;</operator> <literal type="number">0</literal></expr>)</condition><then> <block>{
+            <decl_stmt><decl><type><name><name>PriorityQueue</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>crap_set</name> <init>= <expr><operator>new</operator> <call><name><name>PriorityQueue</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+            <expr_stmt><expr><call><name><name>crap_set</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name><name>crap_set</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><literal type="number">2</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name><name>crap_set</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><literal type="number">3</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name><name>crap_set</name><operator>.</operator><name>remove</name></name><argument_list>(<argument><expr><name>start</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name><name>crap_set</name><operator>.</operator><name>remove</name></name><argument_list>(<argument><expr><name>end</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <decl_stmt><decl><type><name>int</name></type> <name>helper</name> <init>= <expr><call><name><name>crap_set</name><operator>.</operator><name>poll</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+            <expr_stmt><expr><call><name><name>steps</name><operator>.</operator><name>addAll</name></name><argument_list>(<argument><expr><call><name>hanoi</name><argument_list>(<argument><expr><name>height</name><operator>-</operator><literal type="number">1</literal></expr></argument>, <argument><expr><name>start</name></expr></argument>, <argument><expr><name>helper</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name><name>steps</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><operator>new</operator> <call><name><name>Pair</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>(<argument><expr><name>start</name></expr></argument>, <argument><expr><name>helper</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name><name>steps</name><operator>.</operator><name>addAll</name></name><argument_list>(<argument><expr><call><name>hanoi</name><argument_list>(<argument><expr><name>height</name><operator>-</operator><literal type="number">1</literal></expr></argument>, <argument><expr><name>helper</name></expr></argument>, <argument><expr><name>end</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        }</block></then></if>
+
+        <return>return <expr><name>steps</name></expr>;</return>
+    }</block></function>
+
+
+    <class><specifier>public</specifier> <specifier>static</specifier> class <name><name>Pair</name><parameter_list>&lt;<parameter><name>F</name></parameter>, <parameter><name>S</name></parameter>&gt;</parameter_list></name> <block>{
+        <decl_stmt><decl><specifier>private</specifier> <type><name>F</name></type> <name>first</name></decl>;</decl_stmt> <comment type="line">//first member of pair</comment>
+        <decl_stmt><decl><specifier>private</specifier> <type><name>S</name></type> <name>second</name></decl>;</decl_stmt> <comment type="line">//second member of pair</comment>
+
+        <constructor><specifier>public</specifier> <name>Pair</name><parameter_list>(<parameter><decl><type><name>F</name></type> <name>first</name></decl></parameter>, <parameter><decl><type><name>S</name></type> <name>second</name></decl></parameter>)</parameter_list> <block>{
+            <expr_stmt><expr><name><name>this</name><operator>.</operator><name>first</name></name> <operator>=</operator> <name>first</name></expr>;</expr_stmt>
+            <expr_stmt><expr><name><name>this</name><operator>.</operator><name>second</name></name> <operator>=</operator> <name>second</name></expr>;</expr_stmt>
+        }</block></constructor>
+
+        <function><specifier>public</specifier> <type><name>void</name></type> <name>setFirst</name><parameter_list>(<parameter><decl><type><name>F</name></type> <name>first</name></decl></parameter>)</parameter_list> <block>{
+            <expr_stmt><expr><name><name>this</name><operator>.</operator><name>first</name></name> <operator>=</operator> <name>first</name></expr>;</expr_stmt>
+        }</block></function>
+
+        <function><specifier>public</specifier> <type><name>void</name></type> <name>setSecond</name><parameter_list>(<parameter><decl><type><name>S</name></type> <name>second</name></decl></parameter>)</parameter_list> <block>{
+            <expr_stmt><expr><name><name>this</name><operator>.</operator><name>second</name></name> <operator>=</operator> <name>second</name></expr>;</expr_stmt>
+        }</block></function>
+
+        <function><specifier>public</specifier> <type><name>F</name></type> <name>getFirst</name><parameter_list>()</parameter_list> <block>{
+            <return>return <expr><name>first</name></expr>;</return>
+        }</block></function>
+
+        <function><specifier>public</specifier> <type><name>S</name></type> <name>getSecond</name><parameter_list>()</parameter_list> <block>{
+            <return>return <expr><name>second</name></expr>;</return>
+        }</block></function>
+
+        <function><annotation>@<name>Override</name></annotation>
+        <specifier>public</specifier> <type><name>String</name></type> <name>toString</name><parameter_list>()</parameter_list> <block>{
+            <return>return <expr><literal type="string">"("</literal> <operator>+</operator> <call><name><name>String</name><operator>.</operator><name>valueOf</name></name><argument_list>(<argument><expr><name>first</name></expr></argument>)</argument_list></call> <operator>+</operator> <literal type="string">", "</literal> <operator>+</operator> <call><name><name>String</name><operator>.</operator><name>valueOf</name></name><argument_list>(<argument><expr><name>second</name></expr></argument>)</argument_list></call> <operator>+</operator> <literal type="string">")"</literal></expr>;</return>
+        }</block></function>
+    }</block></class>
+}</block></class>
+</unit>

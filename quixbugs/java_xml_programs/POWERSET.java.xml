@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/POWERSET.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>POWERSET</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>ArrayList</name></argument>&gt;</argument_list></name></type> <name>powerset</name><parameter_list>(<parameter><decl><type><name>ArrayList</name></type> <name>arr</name></decl></parameter>)</parameter_list> <block>{
+        <if>if <condition>(<expr><operator>!</operator><call><name><name>arr</name><operator>.</operator><name>isEmpty</name></name><argument_list>()</argument_list></call></expr>)</condition><then> <block>{
+            <decl_stmt><decl><type><name>Object</name></type> <name>first</name> <init>= <expr><call><name><name>arr</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+            <expr_stmt><expr><call><name><name>arr</name><operator>.</operator><name>remove</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <decl_stmt><decl><type><name>ArrayList</name></type> <name>rest</name> <init>= <expr><name>arr</name></expr></init></decl>;</decl_stmt>
+            <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>ArrayList</name></argument>&gt;</argument_list></name></type> <name>rest_subsets</name> <init>= <expr><call><name>powerset</name><argument_list>(<argument><expr><name>rest</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+
+            <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>ArrayList</name></argument>&gt;</argument_list></name></type> <name>output</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>ArrayList</name></argument>&gt;</argument_list></name><argument_list>(<argument><expr><literal type="number">100</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+            <decl_stmt><decl><type><name>ArrayList</name></type> <name>to_add</name> <init>= <expr><operator>new</operator> <call><name>ArrayList</name><argument_list>(<argument><expr><literal type="number">100</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+            <expr_stmt><expr><call><name><name>to_add</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>first</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <for>for <control>(<init><decl><type><name>ArrayList</name></type> <name>subset</name> <range>: <expr><name>rest_subsets</name></expr></range></decl></init>)</control> <block>{
+                <expr_stmt><expr><call><name><name>to_add</name><operator>.</operator><name>addAll</name></name><argument_list>(<argument><expr><name>subset</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></for>
+            <expr_stmt><expr><call><name><name>output</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>to_add</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+            <return>return <expr><name>output</name></expr>;</return>
+        }</block></then> <else>else <block>{
+            <decl_stmt><decl><type><name>ArrayList</name></type> <name>empty_set</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>ArrayList</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+            <expr_stmt><expr><call><name><name>empty_set</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><operator>new</operator> <call><name>ArrayList</name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <return>return <expr><name>empty_set</name></expr>;</return>
+        }</block></else></if>
+    }</block></function>
+}</block></class>
+</unit>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/SUBSEQUENCES.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>SUBSEQUENCES</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>ArrayList</name></argument>&gt;</argument_list></name></type> <name>subsequences</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>a</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>b</name></decl></parameter>, <parameter><decl><type><name>int</name></type> <name>k</name></decl></parameter>)</parameter_list> <block>{
+        <if>if <condition>(<expr><name>k</name> <operator>==</operator> <literal type="number">0</literal></expr>)</condition><then> <block>{
+            <return>return <expr><operator>new</operator> <call><name>ArrayList</name><argument_list>()</argument_list></call></expr>;</return>
+        }</block></then></if>
+
+        <decl_stmt><decl><type><name>ArrayList</name></type> <name>ret</name> <init>= <expr><operator>new</operator> <call><name>ArrayList</name><argument_list>(<argument><expr><literal type="number">50</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+        <for>for <control>(<init><decl><type><name>int</name></type> <name>i</name><init>=<expr><name>a</name></expr></init></decl>;</init> <condition><expr><name>i</name><operator>&lt;</operator><name>b</name><operator>+</operator><literal type="number">1</literal><operator>-</operator><name>k</name></expr>;</condition> <incr><expr><name>i</name><operator>++</operator></expr></incr>)</control> <block>{
+            <decl_stmt><decl><type><name>ArrayList</name></type> <name>base</name> <init>= <expr><operator>new</operator> <call><name>ArrayList</name><argument_list>(<argument><expr><literal type="number">50</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+            <for>for <control>(<init><decl><type><name>ArrayList</name></type> <name>rest</name> <range>: <expr><call><name>subsequences</name><argument_list>(<argument><expr><name>i</name><operator>+</operator><literal type="number">1</literal></expr></argument>, <argument><expr><name>b</name></expr></argument>, <argument><expr><name>k</name><operator>-</operator><literal type="number">1</literal></expr></argument>)</argument_list></call></expr></range></decl></init>)</control> <block>{
+                <expr_stmt><expr><call><name><name>rest</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>,<argument><expr><name>i</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                <expr_stmt><expr><call><name><name>base</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>rest</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></for>
+            <expr_stmt><expr><call><name><name>ret</name><operator>.</operator><name>addAll</name></name><argument_list>(<argument><expr><name>base</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+        }</block></for>
+
+        <return>return <expr><name>ret</name></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

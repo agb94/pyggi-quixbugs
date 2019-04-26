@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/QUICKSORT.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>QUICKSORT</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>quicksort</name><parameter_list>(<parameter><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>arr</name></decl></parameter>)</parameter_list> <block>{
+        <if>if <condition>(<expr><call><name><name>arr</name><operator>.</operator><name>isEmpty</name></name><argument_list>()</argument_list></call></expr>)</condition><then> <block>{
+            <return>return <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr>;</return>
+        }</block></then></if>
+
+        <decl_stmt><decl><type><name>Integer</name></type> <name>pivot</name> <init>= <expr><call><name><name>arr</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>lesser</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>greater</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <for>for <control>(<init><decl><type><name>Integer</name></type> <name>x</name> <range>: <expr><call><name><name>arr</name><operator>.</operator><name>subList</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>, <argument><expr><call><name><name>arr</name><operator>.</operator><name>size</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr></range></decl></init>)</control> <block>{
+            <if>if <condition>(<expr><name>x</name> <operator>&lt;</operator> <name>pivot</name></expr>)</condition><then> <block>{
+                <expr_stmt><expr><call><name><name>lesser</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>x</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></then> <elseif>else <if>if <condition>(<expr><name>x</name> <operator>&gt;</operator> <name>pivot</name></expr>)</condition><then> <block>{
+                <expr_stmt><expr><call><name><name>greater</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>x</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></then></if></elseif></if>
+        }</block></for>
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>middle</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <expr_stmt><expr><call><name><name>middle</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>pivot</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><name>lesser</name> <operator>=</operator> <call><name>quicksort</name><argument_list>(<argument><expr><name>lesser</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><name>greater</name> <operator>=</operator> <call><name>quicksort</name><argument_list>(<argument><expr><name>greater</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name><name>middle</name><operator>.</operator><name>addAll</name></name><argument_list>(<argument><expr><name>greater</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name><name>lesser</name><operator>.</operator><name>addAll</name></name><argument_list>(<argument><expr><name>middle</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <return>return <expr><name>lesser</name></expr>;</return>
+
+    }</block></function>
+}</block></class>
+</unit>

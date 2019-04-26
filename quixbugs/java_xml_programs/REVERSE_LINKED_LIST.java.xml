@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/REVERSE_LINKED_LIST.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>REVERSE_LINKED_LIST</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>Node</name></type> <name>reverse_linked_list</name><parameter_list>(<parameter><decl><type><name>Node</name></type> <name>node</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name>Node</name></type> <name>prevnode</name> <init>= <expr><literal type="null">null</literal></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name>Node</name></type> <name>nextnode</name></decl>;</decl_stmt>
+        <while>while <condition>(<expr><name>node</name> <operator>!=</operator> <literal type="null">null</literal></expr>)</condition> <block>{
+            <expr_stmt><expr><name>nextnode</name> <operator>=</operator> <call><name><name>node</name><operator>.</operator><name>getSuccessor</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><call><name><name>node</name><operator>.</operator><name>setSuccessor</name></name><argument_list>(<argument><expr><name>prevnode</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><name>node</name> <operator>=</operator> <name>nextnode</name></expr>;</expr_stmt>
+        }</block></while>
+        <return>return <expr><name>prevnode</name></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

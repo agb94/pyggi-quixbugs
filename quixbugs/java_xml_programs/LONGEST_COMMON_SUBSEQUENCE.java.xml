@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/LONGEST_COMMON_SUBSEQUENCE.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>LONGEST_COMMON_SUBSEQUENCE</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>String</name></type> <name>longest_common_subsequence</name><parameter_list>(<parameter><decl><type><name>String</name></type> <name>a</name></decl></parameter>, <parameter><decl><type><name>String</name></type> <name>b</name></decl></parameter>)</parameter_list> <block>{
+        <if>if <condition>(<expr><call><name><name>a</name><operator>.</operator><name>isEmpty</name></name><argument_list>()</argument_list></call> <operator>||</operator> <call><name><name>b</name><operator>.</operator><name>isEmpty</name></name><argument_list>()</argument_list></call></expr>)</condition><then> <block>{
+            <return>return <expr><literal type="string">""</literal></expr>;</return>
+        }</block></then> <elseif>else <if>if <condition>(<expr><call><name><name>a</name><operator>.</operator><name>charAt</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call> <operator>==</operator> <call><name><name>b</name><operator>.</operator><name>charAt</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr>)</condition><then> <block>{
+            <return>return <expr><call><name><name>a</name><operator>.</operator><name>charAt</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call> <operator>+</operator> <call><name>longest_common_subsequence</name><argument_list>(<argument><expr><call><name><name>a</name><operator>.</operator><name>substring</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr></argument>, <argument><expr><name>b</name></expr></argument>)</argument_list></call></expr>;</return>
+        }</block></then></if></elseif> <else>else <block>{
+            <decl_stmt><decl><type><name>String</name></type> <name>fst</name> <init>= <expr><call><name>longest_common_subsequence</name><argument_list>(<argument><expr><name>a</name></expr></argument>, <argument><expr><call><name><name>b</name><operator>.</operator><name>substring</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+            <decl_stmt><decl><type><name>String</name></type> <name>snd</name> <init>= <expr><call><name>longest_common_subsequence</name><argument_list>(<argument><expr><call><name><name>a</name><operator>.</operator><name>substring</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr></argument>, <argument><expr><name>b</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+            <return>return <expr><ternary><condition><expr><call><name><name>fst</name><operator>.</operator><name>length</name></name><argument_list>()</argument_list></call> <operator>&gt;=</operator> <call><name><name>snd</name><operator>.</operator><name>length</name></name><argument_list>()</argument_list></call></expr> ?</condition><then> <expr><name>fst</name></expr> </then><else>: <expr><name>snd</name></expr></else></ternary></expr>;</return>
+        }</block></else></if>
+
+    }</block></function>
+
+}</block></class>
+</unit>

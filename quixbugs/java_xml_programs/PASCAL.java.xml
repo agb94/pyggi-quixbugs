@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/PASCAL.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>PASCAL</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name></type> <name>pascal</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>n</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name></type> <name>rows</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>init</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <expr_stmt><expr><call><name><name>init</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <expr_stmt><expr><call><name><name>rows</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>init</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+        <for>for <control>(<init><decl><type><name>int</name></type> <name>r</name><init>=<expr><literal type="number">1</literal></expr></init></decl>;</init> <condition><expr><name>r</name><operator>&lt;</operator><name>n</name></expr>;</condition> <incr><expr><name>r</name><operator>++</operator></expr></incr>)</control> <block>{
+            <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>row</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+            <for>for <control>(<init><decl><type><name>int</name></type> <name>c</name><init>=<expr><literal type="number">0</literal></expr></init></decl>;</init> <condition><expr><name>c</name><operator>&lt;</operator><name>r</name></expr>;</condition> <incr><expr><name>c</name><operator>++</operator></expr></incr>)</control> <block>{
+                <decl_stmt><decl><type><name>int</name></type> <name>upleft</name></decl>, <decl><type ref="prev"/><name>upright</name></decl>;</decl_stmt>
+                <if>if <condition>(<expr><name>c</name> <operator>&gt;</operator> <literal type="number">0</literal></expr>)</condition><then> <block>{
+                    <expr_stmt><expr><name>upleft</name> <operator>=</operator> <call><name><name>rows</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><name>r</name><operator>-</operator><literal type="number">1</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>get</name><argument_list>(<argument><expr><name>c</name><operator>-</operator><literal type="number">1</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                }</block></then> <else>else <block>{
+                    <expr_stmt><expr><name>upleft</name> <operator>=</operator> <literal type="number">0</literal></expr>;</expr_stmt>
+                }</block></else></if>
+                <if>if <condition>(<expr><name>c</name> <operator>&lt;</operator> <name>r</name></expr>)</condition><then> <block>{
+                    <expr_stmt><expr><name>upright</name> <operator>=</operator> <call><name><name>rows</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><name>r</name><operator>-</operator><literal type="number">1</literal></expr></argument>)</argument_list></call><operator>.</operator><call><name>get</name><argument_list>(<argument><expr><name>c</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                }</block></then> <else>else <block>{
+                    <expr_stmt><expr><name>upright</name> <operator>=</operator> <literal type="number">0</literal></expr>;</expr_stmt>
+                }</block></else></if>
+                <expr_stmt><expr><call><name><name>row</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>upleft</name><operator>+</operator><name>upright</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></for>
+            <expr_stmt><expr><call><name><name>rows</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>row</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        }</block></for>
+
+        <return>return <expr><name>rows</name></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

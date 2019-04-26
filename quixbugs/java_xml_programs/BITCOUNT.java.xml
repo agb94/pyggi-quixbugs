@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/BITCOUNT.java"><package>package <name>java_programs</name>;</package>
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>BITCOUNT</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>int</name></type> <name>bitcount</name><parameter_list>(<parameter><decl><type><name>int</name></type> <name>n</name></decl></parameter>)</parameter_list> <block>{
+    <decl_stmt><decl><type><name>int</name></type> <name>count</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</decl_stmt>
+    <while>while <condition>(<expr><name>n</name> <operator>!=</operator> <literal type="number">0</literal></expr>)</condition> <block>{
+        <expr_stmt><expr><name>n</name> <operator>=</operator> <operator>(</operator><name>n</name> <operator>^</operator> <operator>(</operator><name>n</name> <operator>-</operator> <literal type="number">1</literal><operator>)</operator><operator>)</operator></expr>;</expr_stmt>
+        <expr_stmt><expr><name>count</name><operator>++</operator></expr>;</expr_stmt>
+    }</block></while>
+    <return>return <expr><name>count</name></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

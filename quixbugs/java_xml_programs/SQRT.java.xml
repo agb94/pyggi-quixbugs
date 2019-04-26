@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/SQRT.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>SQRT</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>double</name></type> <name>sqrt</name><parameter_list>(<parameter><decl><type><name>double</name></type> <name>x</name></decl></parameter>, <parameter><decl><type><name>double</name></type> <name>epsilon</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name>double</name></type> <name>approx</name> <init>= <expr><name>x</name> <operator>/</operator> <literal type="number">2f</literal></expr></init></decl>;</decl_stmt>
+        <while>while <condition>(<expr><call><name><name>Math</name><operator>.</operator><name>abs</name></name><argument_list>(<argument><expr><name>x</name><operator>-</operator><name>approx</name></expr></argument>)</argument_list></call> <operator>&gt;</operator> <name>epsilon</name></expr>)</condition> <block>{
+            <expr_stmt><expr><name>approx</name> <operator>=</operator> <literal type="number">0.5f</literal> <operator>*</operator> <operator>(</operator><name>approx</name> <operator>+</operator> <name>x</name> <operator>/</operator> <name>approx</name><operator>)</operator></expr>;</expr_stmt>
+        }</block></while>
+        <return>return <expr><name>approx</name></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

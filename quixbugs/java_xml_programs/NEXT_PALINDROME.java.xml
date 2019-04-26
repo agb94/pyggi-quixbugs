@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/NEXT_PALINDROME.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>lang</name><operator>.</operator><name>Math</name><operator>.</operator><name>*</name></name>;</import>
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>NEXT_PALINDROME</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>String</name></type> <name>next_palindrome</name><parameter_list>(<parameter><decl><type><name><name>int</name><index>[]</index></name></type> <name>digit_list</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name>int</name></type> <name>high_mid</name> <init>= <expr><call><name><name>Math</name><operator>.</operator><name>floorDiv</name></name><argument_list>(<argument><expr><name><name>digit_list</name><operator>.</operator><name>length</name></name></expr></argument>, <argument><expr><literal type="number">2</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name>int</name></type> <name>low_mid</name> <init>= <expr><call><name><name>Math</name><operator>.</operator><name>floorDiv</name></name><argument_list>(<argument><expr><name><name>digit_list</name><operator>.</operator><name>length</name></name> <operator>-</operator> <literal type="number">1</literal></expr></argument>, <argument><expr><literal type="number">2</literal></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+
+        <while>while <condition>(<expr><name>high_mid</name> <operator>&lt;</operator> <name><name>digit_list</name><operator>.</operator><name>length</name></name> <operator>&amp;&amp;</operator> <name>low_mid</name> <operator>&gt;=</operator> <literal type="number">0</literal></expr>)</condition> <block>{
+            <if>if <condition>(<expr><name><name>digit_list</name><index>[<expr><name>high_mid</name></expr>]</index></name> <operator>==</operator> <literal type="number">9</literal></expr>)</condition><then> <block>{
+                <expr_stmt><expr><name><name>digit_list</name><index>[<expr><name>high_mid</name></expr>]</index></name> <operator>=</operator> <literal type="number">0</literal></expr>;</expr_stmt>
+                <expr_stmt><expr><name><name>digit_list</name><index>[<expr><name>low_mid</name></expr>]</index></name> <operator>=</operator> <literal type="number">0</literal></expr>;</expr_stmt>
+                <expr_stmt><expr><name>high_mid</name> <operator>+=</operator> <literal type="number">1</literal></expr>;</expr_stmt>
+                <expr_stmt><expr><name>low_mid</name> <operator>-=</operator> <literal type="number">1</literal></expr>;</expr_stmt>
+            }</block></then> <else>else <block>{
+                <expr_stmt><expr><name><name>digit_list</name><index>[<expr><name>high_mid</name></expr>]</index></name> <operator>+=</operator> <literal type="number">1</literal></expr>;</expr_stmt>
+                <if>if <condition>(<expr><name>low_mid</name> <operator>!=</operator> <name>high_mid</name></expr>)</condition><then> <block>{
+                    <expr_stmt><expr><name><name>digit_list</name><index>[<expr><name>low_mid</name></expr>]</index></name> <operator>+=</operator> <literal type="number">1</literal></expr>;</expr_stmt>
+                }</block></then></if>
+                <return>return <expr><call><name><name>Arrays</name><operator>.</operator><name>toString</name></name><argument_list>(<argument><expr><name>digit_list</name></expr></argument>)</argument_list></call></expr>;</return>
+            }</block></else></if>
+        }</block></while>
+
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>otherwise</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+	<expr_stmt><expr><call><name><name>otherwise</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+	<expr_stmt><expr><call><name><name>otherwise</name><operator>.</operator><name>addAll</name></name><argument_list>(<argument><expr><call><name><name>Collections</name><operator>.</operator><name>nCopies</name></name><argument_list>(<argument><expr><name><name>digit_list</name><operator>.</operator><name>length</name></name></expr></argument>, <argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+	<expr_stmt><expr><call><name><name>otherwise</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+
+        <return>return <expr><call><name><name>String</name><operator>.</operator><name>valueOf</name></name><argument_list>(<argument><expr><name>otherwise</name></expr></argument>)</argument_list></call></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

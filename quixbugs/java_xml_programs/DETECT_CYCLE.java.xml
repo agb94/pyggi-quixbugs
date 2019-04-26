@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/DETECT_CYCLE.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+<comment type="block">/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */</comment>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author derricklin
+ */</comment>
+<class><specifier>public</specifier> class <name>DETECT_CYCLE</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name>boolean</name></type> <name>detect_cycle</name><parameter_list>(<parameter><decl><type><name>Node</name></type> <name>node</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name>Node</name></type> <name>hare</name> <init>= <expr><name>node</name></expr></init></decl>;</decl_stmt>
+        <decl_stmt><decl><type><name>Node</name></type> <name>tortoise</name> <init>= <expr><name>node</name></expr></init></decl>;</decl_stmt>
+
+        <while>while <condition>(<expr><literal type="boolean">true</literal></expr>)</condition> <block>{
+            <if>if <condition>(<expr><call><name><name>hare</name><operator>.</operator><name>getSuccessor</name></name><argument_list>()</argument_list></call> <operator>==</operator> <literal type="null">null</literal></expr>)</condition><then>
+                <block type="pseudo"><return>return <expr><literal type="boolean">false</literal></expr>;</return></block></then></if>
+
+            <expr_stmt><expr><name>tortoise</name> <operator>=</operator> <call><name><name>tortoise</name><operator>.</operator><name>getSuccessor</name></name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+            <expr_stmt><expr><name>hare</name> <operator>=</operator> <call><name><name>hare</name><operator>.</operator><name>getSuccessor</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>getSuccessor</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+
+            <if>if <condition>(<expr><name>hare</name> <operator>==</operator> <name>tortoise</name></expr>)</condition><then>
+                <block type="pseudo"><return>return <expr><literal type="boolean">true</literal></expr>;</return></block></then></if>
+        }</block></while>
+    }</block></function>
+}</block></class>
+</unit>

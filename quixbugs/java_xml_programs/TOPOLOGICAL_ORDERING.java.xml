@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/TOPOLOGICAL_ORDERING.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+
+<class><specifier>public</specifier> class <name>TOPOLOGICAL_ORDERING</name> <block>{
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Node</name></argument>&gt;</argument_list></name></type> <name>topological_ordering</name> <parameter_list>(<parameter><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>Node</name></argument>&gt;</argument_list></name></type> <name>directedGraph</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Node</name></argument>&gt;</argument_list></name></type> <name>orderedNodes</name> <init>= <expr><operator>new</operator> <call><name><name>ArrayList</name><argument_list type="generic">&lt;<argument><name>Node</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <for>for <control>(<init><decl><type><name>Node</name></type> <name>node</name> <range>: <expr><name>directedGraph</name></expr></range></decl></init>)</control> <block>{
+            <if>if <condition>(<expr><call><name><name>node</name><operator>.</operator><name>getPredecessors</name></name><argument_list>()</argument_list></call><operator>.</operator><call><name>isEmpty</name><argument_list>()</argument_list></call></expr>)</condition><then> <block>{
+                <expr_stmt><expr><call><name><name>orderedNodes</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>node</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></then></if>
+        }</block></for>
+
+        <decl_stmt><decl><type><name>int</name></type> <name>listSize</name> <init>= <expr><call><name><name>orderedNodes</name><operator>.</operator><name>size</name></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <for>for <control>(<init><decl><type><name>int</name></type> <name>i</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</init> <condition><expr><name>i</name> <operator>&lt;</operator> <name>listSize</name></expr>;</condition> <incr><expr><name>i</name><operator>++</operator></expr></incr>)</control> <block>{
+            <decl_stmt><decl><type><name>Node</name></type> <name>node</name> <init>= <expr><call><name><name>orderedNodes</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><name>i</name></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+            <for>for <control>(<init><decl><type><name>Node</name></type> <name>nextNode</name> <range>: <expr><call><name><name>node</name><operator>.</operator><name>getSuccessors</name></name><argument_list>()</argument_list></call></expr></range></decl></init>)</control> <block>{
+                <if>if <condition>(<expr><call><name><name>orderedNodes</name><operator>.</operator><name>containsAll</name></name><argument_list>(<argument><expr><call><name><name>nextNode</name><operator>.</operator><name>getSuccessors</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call> <operator>&amp;&amp;</operator> <operator>!</operator><call><name><name>orderedNodes</name><operator>.</operator><name>contains</name></name><argument_list>(<argument><expr><name>nextNode</name></expr></argument>)</argument_list></call></expr>)</condition><then> <block>{
+                    <expr_stmt><expr><call><name><name>orderedNodes</name><operator>.</operator><name>add</name></name><argument_list>(<argument><expr><name>nextNode</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                    <expr_stmt><expr><name>listSize</name><operator>++</operator></expr>;</expr_stmt>
+                }</block></then></if>
+            }</block></for>
+        }</block></for>
+        <return>return <expr><name>orderedNodes</name></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>

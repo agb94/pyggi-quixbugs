@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.srcML.org/srcML/src" revision="0.9.5" language="Java" filename="home/aymeric/git/QuixBugs/java_programs/SHORTEST_PATHS.java"><package>package <name>java_programs</name>;</package>
+<import>import <name><name>java</name><operator>.</operator><name>util</name><operator>.</operator><name>*</name></name>;</import>
+<import>import <name><name>java</name><operator>.</operator><name>lang</name><operator>.</operator><name>Math</name><operator>.</operator><name>*</name></name>;</import>
+
+<comment type="block" format="javadoc">/**
+ *
+ * @author Angela Chen
+ */</comment>
+<class><specifier>public</specifier> class <name>SHORTEST_PATHS</name> <block>{
+
+    <comment type="line">// Define Infinite as a large enough value. This value will be used</comment>
+    <comment type="line">// for vertices not connected to each other</comment>
+    <decl_stmt><decl><type><specifier>final</specifier> <specifier>static</specifier> <name>int</name></type> <name>INF</name> <init>= <expr><literal type="number">99999</literal></expr></init></decl>;</decl_stmt>
+    
+   
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>Map</name><argument_list type="generic">&lt;<argument><name>String</name></argument>, <argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>shortest_paths</name><parameter_list>(<parameter><decl><type><name>String</name></type> <name>source</name></decl></parameter>, <parameter><decl><type><name><name>Map</name><argument_list type="generic">&lt;<argument><name><name>List</name><argument_list type="generic">&lt;<argument><name>String</name></argument>&gt;</argument_list></name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>weight_by_edge</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name><name>Map</name><argument_list type="generic">&lt;<argument><name>String</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>weight_by_node</name> <init>= <expr><operator>new</operator> <call><name><name>HashMap</name><argument_list type="generic">&lt;<argument><name>String</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <for>for <control>(<init><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>String</name></argument>&gt;</argument_list></name></type> <name>edge</name> <range>: <expr><call><name><name>weight_by_edge</name><operator>.</operator><name>keySet</name></name><argument_list>()</argument_list></call></expr></range></decl></init>)</control> <block>{
+                <expr_stmt><expr><call><name><name>weight_by_node</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr></argument>, <argument><expr><name>INF</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                <expr_stmt><expr><call><name><name>weight_by_node</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr></argument>, <argument><expr><name>INF</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        }</block></for>
+
+        <expr_stmt><expr><call><name><name>weight_by_node</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><name>source</name></expr></argument>, <argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <for>for <control>(<init><decl><type><name>int</name></type> <name>i</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</init> <condition><expr><name>i</name> <operator>&lt;</operator> <call><name><name>weight_by_node</name><operator>.</operator><name>size</name></name><argument_list>()</argument_list></call></expr>;</condition> <incr><expr><name>i</name><operator>++</operator></expr></incr>)</control> <block>{
+            <for>for <control>(<init><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>String</name></argument>&gt;</argument_list></name></type> <name>edge</name> <range>: <expr><call><name><name>weight_by_edge</name><operator>.</operator><name>keySet</name></name><argument_list>()</argument_list></call></expr></range></decl></init>)</control> <block>{
+                <decl_stmt><decl><type><name>int</name></type> <name>update_weight</name> <init>= <expr><call><name><name>Math</name><operator>.</operator><name>min</name></name><argument_list>(
+                        <argument><expr><call><name><name>weight_by_node</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call>
+                                <operator>+</operator> <call><name><name>weight_by_edge</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><name>edge</name></expr></argument>)</argument_list></call></expr></argument>,
+                        <argument><expr><call><name><name>weight_by_node</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><literal type="number">1</literal></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+                <expr_stmt><expr><call><name><name>weight_by_edge</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><name>edge</name></expr></argument>, <argument><expr><name>update_weight</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+            }</block></for>
+        }</block></for>
+        <return>return <expr><name>weight_by_node</name></expr>;</return>
+    }</block></function>
+    
+    
+    <comment type="block" format="javadoc">/**
+     * Rewrite shortest_paths method
+     * @param node
+     * @param weight_by_edge
+     * @return
+     */</comment>
+    
+    <function><specifier>public</specifier> <specifier>static</specifier> <type><name><name>Map</name><argument_list type="generic">&lt;<argument><name>String</name></argument>, <argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>shortest_paths</name><parameter_list>(<parameter><decl><type><name>Node</name></type> <name>source</name></decl></parameter>, <parameter><decl><type><name><name>List</name><argument_list type="generic">&lt;<argument><name>WeightedEdge</name></argument>&gt;</argument_list></name></type> <name>weight_by_edge</name></decl></parameter>)</parameter_list> <block>{
+        <decl_stmt><decl><type><name><name>Map</name><argument_list type="generic">&lt;<argument><name>String</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name></type> <name>weight_by_node</name> <init>= <expr><operator>new</operator> <call><name><name>HashMap</name><argument_list type="generic">&lt;<argument><name>String</name></argument>,<argument><name>Integer</name></argument>&gt;</argument_list></name><argument_list>()</argument_list></call></expr></init></decl>;</decl_stmt>
+        <for>for <control>(<init><decl><type><name>WeightedEdge</name></type> <name>edge</name> <range>: <expr><name>weight_by_edge</name></expr></range></decl></init>)</control> <block>{
+                <expr_stmt><expr><call><name><name>weight_by_node</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>node1</name><operator>.</operator><name>toString</name></name><argument_list>()</argument_list></call></expr></argument>, <argument><expr><name>INF</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+                <expr_stmt><expr><call><name><name>weight_by_node</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>node2</name><operator>.</operator><name>toString</name></name><argument_list>()</argument_list></call></expr></argument>, <argument><expr><name>INF</name></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        }</block></for>
+
+        <expr_stmt><expr><call><name><name>weight_by_node</name><operator>.</operator><name>put</name></name><argument_list>(<argument><expr><call><name><name>source</name><operator>.</operator><name>getValue</name></name><argument_list>()</argument_list></call></expr></argument>, <argument><expr><literal type="number">0</literal></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+        <for>for <control>(<init><decl><type><name>int</name></type> <name>i</name> <init>= <expr><literal type="number">0</literal></expr></init></decl>;</init> <condition><expr><name>i</name> <operator>&lt;</operator> <call><name><name>weight_by_node</name><operator>.</operator><name>size</name></name><argument_list>()</argument_list></call></expr>;</condition> <incr><expr><name>i</name><operator>++</operator></expr></incr>)</control> <block>{
+            <for>for <control>(<init><decl><type><name>WeightedEdge</name></type> <name>edge</name> <range>: <expr><name>weight_by_edge</name></expr></range></decl></init>)</control> <block>{
+                <decl_stmt><decl><type><name>int</name></type> <name>update_weight</name> <init>= <expr><call><name><name>Math</name><operator>.</operator><name>min</name></name><argument_list>(
+                        <argument><expr><call><name><name>weight_by_node</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>node1</name><operator>.</operator><name>toString</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call>
+                                <operator>+</operator> <name><name>edge</name><operator>.</operator><name>weight</name></name></expr></argument>,
+                        <argument><expr><call><name><name>weight_by_node</name><operator>.</operator><name>get</name></name><argument_list>(<argument><expr><call><name><name>edge</name><operator>.</operator><name>node2</name><operator>.</operator><name>toString</name></name><argument_list>()</argument_list></call></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr></init></decl>;</decl_stmt>
+                <expr_stmt><expr><name><name>edge</name><operator>.</operator><name>weight</name></name> <operator>=</operator> <name>update_weight</name></expr>;</expr_stmt>
+            }</block></for>
+        }</block></for>
+        <return>return <expr><name>weight_by_node</name></expr>;</return>
+    }</block></function>
+}</block></class>
+</unit>
