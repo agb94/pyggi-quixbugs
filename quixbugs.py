@@ -12,15 +12,7 @@ from pyggi.algorithms import LocalSearch
 QUIXBUGS_DIR = os.path.abspath("./quixbugs")
 PYTHON_DIR = os.path.join(QUIXBUGS_DIR, "python_programs")
 JSON_DIR = os.path.join(QUIXBUGS_DIR, "json_testcases")
-TARGETS = ['bitcount', 'hanoi', 'flatten', 'sqrt', 'possible_change',
-	'longest_common_subsequence', 'gcd', 'next_permutation',
-	'depth_first_search', 'sieve', 'knapsack', 'minimum_spanning_tree',
-	'quicksort', 'find_first_in_sorted', 'is_valid_parenthesization',
-	'kheapsort', 'pascal', 'topological_ordering', 'lis', 'get_factors',
-	'shunting_yard', 'powerset', 'levenshtein', 'breadth_first_search',
-	'subsequences', 'to_base', 'detect_cycle', 'kth', 'node',
-	'reverse_linked_list', 'rpn_eval', 'lcs_length', 'max_sublist_sum',
-	'wra', 'next_palindrome', 'find_in_sorted', 'bucketsort', 'mergesort']
+TARGETS = list(map(lambda s: s.strip(), open('TARGETS', 'r').readlines()))
 
 def run(mode, target, epoch, maxiter):
 	target_path = os.path.join(PYTHON_DIR, target + '.py')
@@ -64,7 +56,7 @@ def run(mode, target, epoch, maxiter):
 
 	local_search = MyLocalSearch(program)
 	result = local_search.run(warmup_reps=1, epoch=epoch, max_iter=maxiter, timeout=10)
-	for epoch in result:
+	for epoch in range(len(result)):
 		if result[epoch]["BestPatch"] is not None:
 			result[epoch]["diff"] = program.diff(result[epoch]["BestPatch"])
 		result[epoch]["BestPatch"] = str(result[epoch]["BestPatch"])
