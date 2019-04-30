@@ -49,7 +49,7 @@ def run(mode, target, epoch, maxiter):
 			return temp_patch
 
 		def is_better_than_the_best(self, fitness, best_fitness):
-			return fitness < best_fitness
+			return best_fitness is None or fitness < best_fitness
 
 		def stopping_criterion(self, iter, fitness):
 			return fitness == 0
@@ -60,18 +60,16 @@ def run(mode, target, epoch, maxiter):
 		if result[epoch]["BestPatch"] is not None:
 			result[epoch]["diff"] = program.diff(result[epoch]["BestPatch"])
 		result[epoch]["BestPatch"] = str(result[epoch]["BestPatch"])
-	with open("./logs/{}_{}".format(program.timestamp, target), 'w') as f:
+	with open("./logs/{}_{}_{}".format(program.timestamp, mode, target), 'w') as f:
 		f.write(json.dumps(result))
 
 if __name__ == "__main__":
-	"""
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--mode', type=str, default='line')
-	parser.add_argument('--target', type=str, default='gcd')
+	#parser.add_argument('--mode', type=str, default='line')
+	#parser.add_argument('--target', type=str, default='gcd')
 	parser.add_argument('--epoch', type=int, default=30)
 	parser.add_argument('--maxiter', type=int, default=100)
 	args = parser.parse_args()
-	"""
 	for mode in ['line', 'tree']:
 		for target in TARGETS:
-			run(mode, target, 3, 10)
+			run(mode, target, args.epoch, args.maxiter)
