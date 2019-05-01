@@ -6,7 +6,7 @@ import os
 import types
 from test import run
 
-EXCLUDED = ['hanoi', 'levenshtein', 'knapsack', 'sqrt']
+EXCLUDED = ['levenshtein', 'knapsack', 'sqrt']
 
 if __name__ == "__main__":
     print("subject,passing,timeout,failing")
@@ -16,4 +16,6 @@ if __name__ == "__main__":
             continue
         test_file = "../json_testcases/{}.json".format(module_name)
         passing, timeout, failing = run(module_name, test_file)
+        #if passing == 0:
+        #    print(module_name)
         print(','.join(list(map(str, [module_name, passing, timeout, failing]))))

@@ -35,6 +35,9 @@ def run(module_name, test_file):
                 result = func(test[0])
             if isinstance(result, types.GeneratorType):
                 result = list(result)
+            if module_name == 'hanoi':
+                for i in range(len(result)):
+                    result[i] = list(result[i])
             if test[1] == result:
                 passing += 1
             else:
