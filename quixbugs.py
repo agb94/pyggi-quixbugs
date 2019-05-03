@@ -12,7 +12,6 @@ from pyggi.algorithms import LocalSearch
 QUIXBUGS_DIR = os.path.abspath("./quixbugs")
 PYTHON_DIR = os.path.join(QUIXBUGS_DIR, "python_programs")
 JSON_DIR = os.path.join(QUIXBUGS_DIR, "json_testcases")
-TARGETS = list(map(lambda s: s.strip(), open('TARGETS', 'r').readlines()))
 
 def run(mode, target, epoch, maxiter):
 	target_path = os.path.join(PYTHON_DIR, target + '.py')
@@ -64,12 +63,13 @@ def run(mode, target, epoch, maxiter):
 		f.write(json.dumps(result))
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser()
-	#parser.add_argument('--mode', type=str, default='line')
-	#parser.add_argument('--target', type=str, default='gcd')
-	parser.add_argument('--epoch', type=int, default=30)
-	parser.add_argument('--maxiter', type=int, default=100)
-	args = parser.parse_args()
-	for mode in ['line', 'tree']:
-		for target in TARGETS:
-			run(mode, target, args.epoch, args.maxiter)
+    parser = argparse.ArgumentParser()
+    #parser.add_argument('--mode', type=str, default='line')
+    parser.add_argument('--targets', type=str, default="TARGETS")
+    parser.add_argument('--epoch', type=int, default=30)
+    parser.add_argument('--maxiter', type=int, default=100)
+    args = parser.parse_args()
+    TARGETS = list(map(lambda s: s.strip(), open(args.targets, 'r').readlines()))
+    for mode in ['line', 'tree']:
+        for target in TARGETS:
+            run(mode, target, args.epoch, args.maxiter)

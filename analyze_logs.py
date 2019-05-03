@@ -1,20 +1,17 @@
 import json
 import os
 
-epoch = 30
-
 def analyze_log(path):
     with open(path, 'r') as f:
         data = json.loads(f.read())
-   
+    #print(path)
     success = 0
     patches = []
-    for i in range(epoch):
-        epoch_data = data[str(i+1)]
+    for epoch_data in data:
         if epoch_data['Success']:
             success += 1
             patches.append(epoch_data['BestPatch'])
-        # print(epoch_data['Success'], epoch_data['BestFitness'])
+        #print(epoch_data['Success'], epoch_data['BestFitness'] if 'BestFitness' in epoch_data else None)
     if success:
         unique_patches = list(set(patches))
         print(path, success, len(unique_patches))
