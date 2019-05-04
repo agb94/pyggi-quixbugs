@@ -1,0 +1,9 @@
+python evaluate.py bucketsort
+python evaluate.py gcd
+python evaluate.py hanoi
+python evaluate.py lis
+python evaluate.py mergesort
+python evaluate.py next_permutation
+python evaluate.py possible_change
+python evaluate.py shunting_yard
+python evaluate.py to_base

@@ -61,6 +61,7 @@ def is_valid_input(module_name, tinput):
             #coins: A list of positive ints representing coin denominations
             #total: An int value to make change for
             coins, total = tuple(tinput)
+            #return isinstance(coins, list) and all([isinstance(x, int) and x > 0 for x in coins]) and total >= 0
             return isinstance(coins, list) and all([isinstance(x, int) and x > 0 for x in coins])
         elif module_name == 'bitcount':
             n = tinput[0]
