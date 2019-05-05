@@ -134,16 +134,17 @@ def run(mode, target, epoch, maxiter):
         if result[epoch]["BestPatch"] is not None:
             result[epoch]["diff"] = program.diff(result[epoch]["BestPatch"])
         result[epoch]["BestPatch"] = str(result[epoch]["BestPatch"])
-    with open("./logs/{}_{}_{}".format(program.timestamp, mode, target), 'w') as f:
+    with open("./logs-java/{}_{}_{}".format(program.timestamp, mode, target), 'w') as f:
         f.write(json.dumps(result))
+    program.remove_tmp_variant()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default='line')
-    #parser.add_argument('--target', type=str, default='gcd')
-    parser.add_argument('--epoch', type=int, default=20)
-    parser.add_argument('--maxiter', type=int, default=500)
+    parser.add_argument('--targets', type=str, default='TARGETS')
+    parser.add_argument('--epoch', type=int, default=30)
+    parser.add_argument('--maxiter', type=int, default=100)
     args = parser.parse_args()
-
+    TARGETS = list(map(lambda s: s.strip(), open('TARGETS', 'r').readlines()))
     for target in TARGETS:
         run(args.mode, target, args.epoch, args.maxiter)

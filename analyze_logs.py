@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 
 def analyze_log(path):
     with open(path, 'r') as f:
@@ -19,6 +20,7 @@ def analyze_log(path):
             print(patch)
 
 if __name__ == "__main__":
-    for log in os.listdir('logs'):
+    log_dir = sys.argv[1]
+    for log in os.listdir(log_dir):
         if log != '.keep':
-            analyze_log("logs/{}".format(log))
+            analyze_log(os.path.join(log_dir, log))

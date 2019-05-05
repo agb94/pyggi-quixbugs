@@ -1,6 +1,8 @@
+lis
+wrap
+rpn_eval
 powerset
 longest_common_subsequence
-rpn_eval
 find_first_in_sorted
 get_factors
 lcs_length
