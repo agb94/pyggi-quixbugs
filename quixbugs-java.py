@@ -36,9 +36,9 @@ class MyLineProgram(LineProgram):
                 try_test = self.exec_cmd(TEST_COMMAND.format(self.algo, ' '.join(algo_input)), timeout)
                 #print(TEST_COMMAND.format(self.algo, ' '.join(algo_input)))
                 #print(try_test.stdout.strip(), str(test_out))
-                if not try_test.stdout.rstrip() == str(test_out):
+                if try_test.stdout is None or try_test.stdout.rstrip() != str(test_out):
                     failing += 1
-                elapsed_time += try_test.elapsed_time
+                elapsed_time += try_test.elapsed_time if try_test.elapsed_time else timeout
             result = self.__class__.Result(
                 status_code=StatusCode.NORMAL,
                 elapsed_time=elapsed_time,
@@ -66,7 +66,7 @@ class MyTreeProgram(TreeProgram):
                 #print(try_test.stdout.strip(), str(test_out))
                 if try_test.stdout is None or try_test.stdout.rstrip() != str(test_out):
                     failing += 1
-                elapsed_time += try_test.elapsed_time
+                elapsed_time += try_test.elapsed_time if try_test.elapsed_time else timeout
             result = self.__class__.Result(
                 status_code=StatusCode.NORMAL,
                 elapsed_time=elapsed_time,
@@ -75,7 +75,7 @@ class MyTreeProgram(TreeProgram):
         return result
 
 def run(mode, target, epoch, maxiter):
-    target_path = os.path.join(JAVA_DIR, target + '.py')
+    target_path = os.path.join(JAVA_DIR, target + '.java')
     test_path = os.path.join(JSON_DIR, target + '.json')
     print("------------------- Target -------------------")
     print(target_path)
@@ -142,9 +142,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default='line')
     parser.add_argument('--targets', type=str, default='TARGETS')
-    parser.add_argument('--epoch', type=int, default=30)
-    parser.add_argument('--maxiter', type=int, default=100)
+    parser.add_argument('--epoch', type=int, default=20)
+    parser.add_argument('--maxiter', type=int, default=500)
     args = parser.parse_args()
-    TARGETS = list(map(lambda s: s.strip(), open('TARGETS', 'r').readlines()))
+    TARGETS = list(map(lambda s: s.strip(), open(args.targets, 'r').readlines()))
     for target in TARGETS:
         run(args.mode, target, args.epoch, args.maxiter)
