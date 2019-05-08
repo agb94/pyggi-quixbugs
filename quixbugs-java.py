@@ -3,12 +3,14 @@ import random
 import json
 import argparse
 import copy
+import re
 from pyggi.base import Patch, StatusCode
 from pyggi.line import LineProgram
 from pyggi.line import LineReplacement, LineInsertion, LineDeletion
-from pyggi.tree import TreeProgram
+from pyggi.tree import TreeProgram, AstorEngine, XmlEngine
 from pyggi.tree import StmtReplacement, StmtInsertion, StmtDeletion
 from pyggi.algorithms import LocalSearch
+from pyggi.utils import get_file_extension
 
 QUIXBUGS_DIR = os.path.abspath("./quixbugs")
 JAVA_DIR = os.path.join(QUIXBUGS_DIR, "java_programs")
@@ -17,6 +19,75 @@ JSON_DIR = os.path.join(QUIXBUGS_DIR, "json_testcases")
 TARGETS = list(map(lambda s: s.strip(), open('TARGETS', 'r').readlines()))
 COMPILE_COMMAND = "javac {}.java -d ."
 TEST_COMMAND = "java -cp gson-2.8.2.jar:. JavaDeserialization {} {}"
+
+STMT_TAGS = ['if', 'then', 'else', 'elseif', 'while', 'for', 'do',
+    'break', 'continue', 'return', 'switch', 'case', 'default', 'block',
+    'label', 'goto', 'empty_stmt', 'foreach', 'fixed', 'using', 'unsafe', 'assert'
+]
+
+class MyXmlEngine(XmlEngine):
+    @classmethod
+    def get_contents(cls, file_path):
+        tree = XmlEngine.get_contents(file_path)
+        cls.remove_tags(tree, exception=STMT_TAGS)
+        cls.rotate_newlines(tree)
+        print(cls.tree_to_string(tree))
+        print('------------------------------------')
+        return tree
+
+    @classmethod
+    def remove_tags(cls, element, exception=[]):
+        last = None
+        marked = []
+        buff = 0
+        for i, child in enumerate(element):
+            cls.remove_tags(child, exception=exception)
+            if child.tag not in exception:
+                marked.append(child)
+                if child.text:
+                    if last is not None:
+                        last.tail = last.tail or ''
+                        last.tail += child.text
+                    else:
+                        element.text = element.text or ''
+                        element.text += child.text
+                if len(child) > 0:
+                    for sub_child in reversed(child):
+                        element.insert(i+1, sub_child)
+                    last = child[-1]
+                if child.tail:
+                    if last is not None:
+                        last.tail = last.tail or ''
+                        last.tail += child.tail
+                    else:
+                        element.text = element.text or ''
+                        element.text += child.tail
+            else:
+                last = child
+        for child in marked:
+            element.remove(child)
+
+    @classmethod
+    def rewrite_tags(cls, element, tags, new_tag):
+        if element.tag in tags:
+            element.tag = new_tag
+        for child in element:
+            cls.rewrite_tags(child, tags, new_tag)
+
+    @classmethod
+    def rotate_newlines(cls, element):
+        if element.tail:
+            match = re.match("(\n\s*)", element.tail)
+            if match:
+                element.tail = element.tail[len(match.group(1)):]
+                if len(element) > 0:
+                    element[-1].tail = element[-1].tail or ''
+                    element[-1].tail += match.group(1)
+                else:
+                    element.text = element.text or ''
+                    element.text += match.group(1)
+        for child in element:
+            cls.rotate_newlines(child)
 
 class MyLineProgram(LineProgram):
     def run(self, timeout=10):
@@ -47,6 +118,16 @@ class MyLineProgram(LineProgram):
         return result
 
 class MyTreeProgram(TreeProgram):
+    @classmethod
+    def get_engine(cls, file_name):
+        extension = get_file_extension(file_name)
+        if extension in ['.py']:
+            return AstorEngine
+        elif extension in ['.xml']:
+            return MyXmlEngine
+        else:
+            raise Exception('{} file is not supported'.format(extension))
+
     def run(self, timeout=10):
         try_compile = self.exec_cmd(COMPILE_COMMAND.format(self.algo.upper()), timeout)
         if try_compile.stderr:
