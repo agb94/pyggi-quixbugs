@@ -20,9 +20,15 @@ TARGETS = list(map(lambda s: s.strip(), open('TARGETS', 'r').readlines()))
 COMPILE_COMMAND = "javac {}.java -d ."
 TEST_COMMAND = "java -cp gson-2.8.2.jar:. JavaDeserialization {} {}"
 
-STMT_TAGS = ['if', 'then', 'else', 'elseif', 'while', 'for', 'do',
+STMT_TAGS = [
+    # statements
+    'if', 'then', 'else', 'elseif', 'while', 'for', 'do',
     'break', 'continue', 'return', 'switch', 'case', 'default', 'block',
-    'label', 'goto', 'empty_stmt', 'foreach', 'fixed', 'using', 'unsafe', 'assert'
+    'label', 'goto', 'empty_stmt', 'foreach', 'fixed', 'using', 'unsafe', 'assert',
+    # declaration, expression
+    'decl_stmt', 'expr_stmt',
+    # exception
+    'throw', 'throws', 'try', 'catch', 'finally'
 ]
 
 class MyXmlEngine(XmlEngine):
